@@ -1,0 +1,1156 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="employe.RegistrationBean"%>
+<%@page import="database.dbcon"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Registration </title>
+<!-- <link href="./IOCL Registration_files/iocl.css" rel="stylesheet" type="text/css"> -->
+<!-- <link href="./IOCL Registration_files/style.css" rel="stylesheet" type="text/css"> -->
+<script src="../val/jquery.min.js" type="text/javascript"></script>
+
+<script language="javascript" type="text/javascript" src="../val/common.js"></script>
+<script language="javascript" type="text/javascript" src="../val/iocl_reg.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="../css/reset.css"
+	media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/text.css"
+	media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/grid.css"
+	media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/layout.css"
+	media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/nav.css"
+	media="screen" />
+
+
+<script src="../jquery-1.8.0.js" type="text/javascript"></script>
+<script type="text/javascript" src="../jquery.validate.js"></script>
+<script src="../js/setup.js" type="text/javascript"></script>
+
+
+
+<script language="javascript" type="text/javascript">
+var currentDate='2013:01:24';
+var year='2013'; 
+function display_emp(str5)
+ {
+   if(str5 == 'No')
+	{ 
+	 document.getElementById('experience_code').style.display='block';
+	document.getElementById('edu_details').style.display='block';
+	 document.getElementById('emp_details').style.display='none';
+	 
+	 
+	}else if(str5 == 'Yes'){
+	 document.getElementById('experience_code').style.display='none';
+	 document.getElementById('edu_details').style.display='block';
+	 document.getElementById('emp_details').style.display='block';
+	}
+   
+ }
+ 
+ function checkUserName(usercheck)
+{
+	var emailchk=/^.+@.+\..{2,3}$/;
+	if(usercheck==''){		
+			alert("Please Enter Your Email Id");
+			document.getElementById('email').focus();
+			return false;
+	}
+	if(usercheck!=''){
+	if(!emailchk.test(usercheck)){		
+			alert("This Email Address ID is not valid");
+			return false;
+	}
+
+	$('#usercheck').html('<img src="images/ajax-loader.gif" />');
+	$.post("checkuser.php", {email_id: usercheck} , function(data)
+		{			
+			   if (data != '' || data != undefined || data != null) 
+			   {				   
+				  $('#usercheck').html(data);	
+			   }
+          });
+		  
+   }
+}
+ 
+function check_relationship()
+ {
+   
+  if(document.getElementById('marital_status').value=='Unmarried')
+    {
+	   document.getElementById('relationship2').style.display='block';
+	   document.getElementById('relationship1').style.display='none';
+	   document.getElementById('relationship').value='';
+	  
+	    
+	 }else if(document.getElementById('marital_status').value!='Unmarried'){
+	 
+	  document.getElementById('relationship2').style.display='none';
+	   document.getElementById('relationship1').style.display='block';
+	    
+	 
+	 }
+ 
+ }
+ 
+ 
+ 
+ function handicap_hide()
+ {
+   if(document.getElementById('handicap').value=='No')
+    {
+	   document.getElementById('handicap_desc').style.display='none';
+	   
+	   document.getElementById('disable_percentage').value='';
+	   document.getElementById('type_disable').value='';
+	   document.getElementById('pwd_cert_no').value='';
+	   document.getElementById('seldobday_pwd').value='';
+	   document.getElementById('seldobmon_pwd').value='';
+	   document.getElementById('seldobyear_pwd').value='';
+	   document.getElementById('issue_by').value='';
+	     
+
+	 }
+	 
+	 if(document.getElementById('handicap').value=='Yes')
+    {
+	   document.getElementById('handicap_desc').style.display='block';
+	    
+	 }
+ 
+ }
+ 
+ 
+ 
+ 
+ function exservice_hide()
+ {
+   if(document.getElementById('exservice').value=='No')
+    {
+	   document.getElementById('exservice_desc').style.display='none';
+	   document.getElementById('exservice_force').value='';
+	   document.getElementById('selfrommon_ex').value='';
+	   document.getElementById('selfromyr_ex').value='';
+	   document.getElementById('seltomon_ex').value='';
+	   document.getElementById('seltoyr_ex').value='';
+	   document.getElementById('txtexser').value='';
+	   
+	 }
+	 
+	 if(document.getElementById('exservice').value=='Yes')
+    {
+	   document.getElementById('exservice_desc').style.display='block';
+	    
+	 }
+ 
+ }
+ 
+
+ 
+ function convertToUpper(ID){
+	document.getElementById(ID).value=document.getElementById(ID).value.toUpperCase()
+}
+
+function hide_scst()
+{
+ cate_value=document.getElementById('txtccategory').value;
+ if(cate_value==1){
+   document.getElementById('sub_scst').style.display='none';
+   //document.getElementById('sub_scst').style.visibility="hidden";
+   }else if(cate_value!=1){
+    document.getElementById('sub_scst').style.display='block';
+	//document.getElementById('sub_scst').style.visibility="visible";
+  }  
+}
+
+function otherreligion1(){
+regli_value=document.getElementById('txtregl').value;
+ if(regli_value=='7'){
+ 
+   document.getElementById('otherreligion').style.display='block';
+ 
+ }else{
+ document.getElementById('otherreligion').style.display='none';
+ }
+}
+
+function otherdegree(){
+regli_value=document.getElementById('name_degree').value;
+ if(regli_value=='Others'){
+ 
+   document.getElementById('otherdegree').style.display='block';
+ 
+ }else{
+ document.getElementById('otherdegree').style.display='none';
+ }
+}
+
+
+
+/*function dobcheck()
+{
+ 
+
+ if( (document.getElementById('seldobyear').value!='') && (document.getElementById('seldobmon').value!='') && (document.getElementById('seldobday').value!='') )
+	{ 
+	  		
+		var BirthDate=document.getElementById('seldobday').value+'/'+document.getElementById('seldobmon').value+'/'+document.getElementById('seldobyear').value;
+		if (isDate(BirthDate)==false){
+			alert("Invalid Date Of Birth.");
+			document.getElementById('seldobday').focus();
+			return false;
+		}else{
+			
+			var asOnDate = new Date(2013,06,30);			
+			var varBDate = new Date(document.getElementById('seldobyear').value,document.getElementById('seldobmon').value,document.getElementById('seldobday').value);
+			var dife = datediff(asOnDate, varBDate);
+			//alert(dife[0]+"years "+dife[1]+"months "+dife[2]+"days");
+			 if(document.getElementById('emp_iocl').value=='No' && document.getElementById('post_apply').value=='officers'){	
+			//GEN Age checking code 
+				if(document.getElementById('txtccategory').value==1){
+		
+				 if(document.getElementById('exservice').value=='Yes' || document.getElementById('handicap').value=='Yes')		 
+				  {
+					if(dife[0] >=36 || dife[0]<16)
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 26 ');
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  }
+				  }else{
+					  if(dife[0] >=26 || dife[0]<16)
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 26 ');
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  }
+					  
+				  }
+				  
+					 
+				}
+			
+			
+			   //SC/ST  Age checking code 
+				if(document.getElementById('txtccategory').value==2 || document.getElementById('txtccategory').value==3 || document.getElementById('domi_jk').value=='Yes'){
+					 
+					 
+				if(document.getElementById('exservice').value=='Yes' || document.getElementById('handicap').value=='Yes')		 
+				  {
+					if(dife[0] >=36 || dife[0]<16 )
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 31 '); 
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  }
+				  }else{
+					 if(dife[0] >=31 || dife[0]<16 )
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 31 '); 
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  } 
+				  }
+				}
+			
+			   //OBCAge checking code 
+				if(document.getElementById('txtccategory').value==4){				
+				
+				if(document.getElementById('exservice').value=='Yes' || document.getElementById('handicap').value=='Yes')		 
+				  {
+					if(dife[0] >=36 || dife[0] < 16)
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 29 ');
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  }
+				  }else{
+					 if(dife[0] >=29 || dife[0] < 16)
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 29 ');
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  } 
+					  
+				  }
+				}
+				
+				
+		
+		  }else if(document.getElementById('emp_iocl').value=='No' && document.getElementById('post_apply').value=='asst'){		    
+			
+		             if(dife[0] > 30)
+					  {
+						  //alert('your not eligible for this Posting , Age should be below or equal to 26 ');
+						  alert('You are not eligible to apply due to age criteria');
+						  document.getElementById('seldobyear').focus();
+						  return false;
+					  }
+		     
+		  }
+		  
+		  
+		  
+	
+	  }
+	
+ }
+}*/
+
+
+function complete_course_hide()
+{
+ if(document.getElementById('complete_course').value=='Yes')
+  { 
+   document.getElementById('course_Not_completed').style.display='none';
+	document.getElementById('course_completed').style.display='block';
+  
+   }else if(document.getElementById('complete_course').value=='No'){
+    
+	document.getElementById('course_Not_completed').style.display='block';
+	document.getElementById('course_completed').style.display='none';
+   }
+
+}
+
+
+function result_mark_check()
+{
+  
+	 if(document.getElementById('result_mark').value > 100)
+	   {	 
+		alert("Invaild % of Marks");
+		 document.getElementById('result_mark').value='';
+		document.getElementById('result_mark').focus();
+		return false;	
+	   }
+	   
+	   var x=trim(document.getElementById('result_mark').value);
+		 var anum=/(^\d+$)|(^\d+\.\d+$)/;
+		//   var anum=/(^\d+$)/;
+		  if (anum.test(x)){    
+			return true;
+		  }else{
+			   alert("Invaild % of Marks,Please Enter Numeric value only");
+			  document.getElementById('result_mark').value='';
+			  document.getElementById('result_mark').focus();
+			  return false;             
+		  }
+	 
+}
+ 
+</script>
+
+<script>
+$(function(){
+	$("#imageField").click(function(){
+	$("#sendemail").validate();
+	
+	});
+	});
+
+</script>
+<script type="text/javascript">
+	/* function AllowAlphabet(){
+		if (!emp_reg.name.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.name.value != "") {
+			emp_reg.name.value = "";
+			emp_reg.name.focus();
+			alert("Please Enter only alphabets in Employee Name");
+		}
+		if (!emp_reg.city.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.city.value != "") {
+			emp_reg.city.value = "";
+			emp_reg.city.focus();
+			alert("Please Enter only alphabets in City Name");
+		}
+		if (!emp_reg.state.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.state.value != "") {
+			emp_reg.state.value = "";
+			emp_reg.state.focus();
+			alert("Please Enter only alphabets in State Name");
+		}
+		if (!emp_reg.country.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.country.value != "") {
+			emp_reg.country.value = "";
+			emp_reg.country.focus();
+			alert("Please Enter only alphabets in country Name");
+		}
+		if (!emp_reg.qua.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.qua.value != "") {
+			emp_reg.qua.value = "";
+			emp_reg.qua.focus();
+			alert("Please Enter only alphabets in qualification Name");
+		}
+		if (!emp_reg.crs.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.crs.value != "") {
+			emp_reg.crs.value = "";
+			emp_reg.crs.focus();
+			alert("Please Enter only alphabets in Course Name");
+		}
+		if (!emp_reg.uni.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.uni.value != "") {
+			emp_reg.uni.value = "";
+			emp_reg.uni.focus();
+			alert("Please Enter only alphabets in University Name");
+		}
+		if (!emp_reg.clg.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.clg.value != "") {
+			emp_reg.clg.value = "";
+			emp_reg.clg.focus();
+			alert("Please Enter only alphabets in College Name");
+		}
+		if (!emp_reg.strm.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.strm.value != "") {
+			emp_reg.strm.value = "";
+			emp_reg.strm.focus();
+			alert("Please Enter only alphabets in Stream Name");
+		}
+		if (!emp_reg.lem.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.lem.value != "") {
+			emp_reg.lem.value = "";
+			emp_reg.lem.focus();
+			alert("Please Enter only alphabets in Last Employeer Name");
+		}
+		if (!emp_reg.lpt.value.match(/^[a-zA-Z]+$/)
+				&& emp_reg.lpt.value != "") {
+			emp_reg.lpt.value = "";
+			emp_reg.lpt.focus();
+			alert("Please Enter only alphabets in last Post Name");
+		}
+		
+	}*/
+
+</script>
+<script type="text/javascript">
+function valtxt(obj) {
+	str = "0123456789-"
+	l = obj.value.length;
+	if (obj.value.length >11) {
+		alert("Please enter 10 digit Mobile number.");
+		obj.value = "";
+		obj.focus();
+		return false;
+	} else {
+		for (i = 0; i <= l; i++) {
+			if (str.indexOf(obj.value.charAt(i)) == -1) {
+				alert("Please enter valid Contact number.");
+				obj.value = "";
+				obj.focus();
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+</script>
+<script type="text/javascript">
+function valtxt2(obj) {
+	str = "0123456789-"
+	l = obj.value.length;
+	if (obj.value.length >11) {
+		alert("Please enter Valid Salary.");
+		obj.value = "";
+		obj.focus();
+		return false;
+	} else {
+		for (i = 0; i <= l; i++) {
+			if (str.indexOf(obj.value.charAt(i)) == -1) {
+				alert("Please enter valid Salary.");
+				obj.value = "";
+				obj.focus();
+				return false;
+			}
+		}
+	}
+	return true;
+}
+</script>
+<script type="text/javascript">
+function valtxt3(obj) {
+	str = "0123456789-"
+	l = obj.value.length;
+	if (obj.value.length >4) {
+		alert("Please enter Valid Year.");
+		obj.value = "";
+		obj.focus();
+		return false;
+	} else {
+		for (i = 0; i <= l; i++) {
+			if (str.indexOf(obj.value.charAt(i)) == -1) {
+				alert("Please enter valid Year.");
+				obj.value = "";
+				obj.focus();
+				return false;
+			}
+		}
+	}
+	return true;
+}
+</script>
+<script type="text/javascript">
+function valtxt4(obj) {
+	str = "0123456789-"
+	l = obj.value.length;
+	if (obj.value.length >2) {
+		alert("Please enter Valid Percentage.");
+		obj.value = "";
+		obj.focus();
+		return false;
+	} else {
+		for (i = 0; i <= l; i++) {
+			if (str.indexOf(obj.value.charAt(i)) == -1) {
+				alert("Please enter valid Percentage.");
+				obj.value = "";
+				obj.focus();
+				return false;
+			}
+		}
+	}
+	return true;
+}
+</script>
+<script type="text/javascript">
+function valtxt5(obj) {
+	str = "0123456789-"
+	l = obj.value.length;
+	if (obj.value.length >16) {
+		alert("Please enter Valid Account Number.");
+		obj.value = "";
+		obj.focus();
+		return false;
+	} else {
+		for (i = 0; i <= l; i++) {
+			if (str.indexOf(obj.value.charAt(i)) == -1) {
+				alert("Please enter valid Account Number.");
+				obj.value = "";
+				obj.focus();
+				return false;
+			}
+		}
+	}
+	return true;
+}
+</script>
+<script type="text/javascript">
+function valtxt1(obj) {
+	str = "0123456789-"
+	l = obj.value.length;
+	if (obj.value.length <10) {
+		alert("Please enter 10 digit Mobile number.");
+		obj.value = "";
+		obj.focus();
+		return false;
+	} 
+	return true;
+}
+
+</script>
+<link rel="stylesheet" href="../themes/base/jquery.ui.all.css">
+	<script src="../ui/jquery.ui.core.js"></script>
+	<script src="../ui/jquery.ui.widget.js"></script>
+	<script src="../ui/jquery.ui.datepicker.js"></script>
+
+<script>
+$(function() {
+	$("#datepicker").datepicker({
+		minDate : -9000000000000000,
+		maxDate : 0,
+
+		showOn : "button",
+		buttonImage : "../images/calendar.gif",
+		buttonImageOnly : true
+
+	});
+});
+	</script>
+
+<script>
+	$(function() {
+		$( "#datepicker1" ).datepicker({
+			minDate : 0,
+			maxDate : -9000000000000000,
+
+			showOn : "button",
+			
+			buttonImage: "../images/calendar.gif",
+			buttonImageOnly: true
+		});
+	});
+
+	</script>
+
+
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		setupLeftMenu();
+
+		$('.datatable').dataTable();
+		setSidebarHeight();
+
+	});
+</script>
+<style type="text/css">
+th {
+	text-align: left;
+}
+</style>
+
+</head>
+<body>
+	<div class="container_12">
+		<div align="center" class="grid_10" style="width: 95%;">
+			<div align="center" class="box round first grid" style="width: 95%;">
+				<h2 align="center">Employee Registration</h2>
+				<form action="../RegistrationServlet"  id="sendemail" name="emp_reg" method="post" >
+					<fieldset>
+						<legend>Personal Information</legend>
+						<table>
+
+							<tr>
+								<th>Name</th>
+								<td><input type="text" name="name" class="required" id="first_name" maxlength="25" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+						  </tr>
+
+
+							<tr>
+								<th>Date of Birth</th>
+								<td><input type="text" name="dob" id="datepicker" readonly="readonly" class="required"></td>
+							</tr>
+							<tr>
+								<th>Address</th>
+								<td><textarea rows="3" cols="21" name="add" maxlength="100" class="required"id="address_1" onKeyPress="return alphanumber(event);" onBlur="convertToUpper(this.id)"></textarea></td>
+							</tr>
+							<tr>
+								<th>Mobile Number</th>
+								<td><input type="text" name="mob"  							
+								class="textbox2_1" id="mobile" maxlength="10" class="required"  onkeypress="return number(event)" value=				""	></td>
+								<th>Telephone Number</th>
+								<td><input type="text" name="teno" 	class="textbox2_1" id="mobile" maxlength="12"  onkeypress="return number(event)" value=""	 ></td>
+							</tr>
+							<tr>
+								<th>Gender</th>
+								<td>Male<input type="radio" value="male" name="gender" checked="checked">Female<input
+									type="radio" value="female" name="gender"></td>
+								<th>Marital Status</th>
+								<td>Married<input type="radio" name="mstatus"
+									value="married">UnMarried<input type="radio"
+									name="mstatus" value="unmarried" checked="checked"></td>
+							</tr>
+							<tr>
+								<th>Blood Group</th>
+								<td><select name="bloodgroup" class="listMenu"  id="name_pre" >
+								      <option value="" selected="selected">Select</option>
+								       <option>O+</option>
+										<option>O-</option>
+										<option>A+</option>
+										<option>A-</option>
+										<option>B+</option>
+										<option>B-</option>
+										<option>AB+</option>
+										<option>AB-</option>
+								</select></td>
+								<th>Employee Type</th>
+								<td><select name="emptype"    class="listMenu" >
+								 <option value="" selected="selected">Select</option>
+										<option value="doctor">doctor</option>
+										<option value="nurse">nurse</option>
+										<option value="staff">staff</option>
+									
+								</select></td>
+							</tr>
+							<tr>
+								<th>Email Id</th>
+								<td><input class="textbox2_1" id="email" maxlength="50"   onkeypress="return emailctrl(event)" onKeyDown="return emailctrl(event)" value="" onBlur="checkUserName(this.value)" name="email" ></td>
+							</tr>
+							<tr>
+								<th>City</th>
+								<td><input type="text" name="city" class="required" id="city"onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"maxlength="30"></td>
+
+								<th>State</th>
+								<td><input type="text" maxlength="30" name="state" id="state"  class="required" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+
+								<th>Country</th>
+								<td><input type="text" name="country" id="country" class="required"  onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)" maxlength="30"></td>
+							</tr>
+							<tr>
+								<th>Joining Date</th>
+								<td><input type="text" name="joindate" id="datepicker1"  readonly="readonly" class="required"></td>
+
+								<th>Salary</th>
+								<td><input type="text" name="salary"   class="required" id="salary" maxlength="10"  onkeypress="return number(event)" value=""	></td>
+							</tr>
+							<!-- <tr>
+								<th>Image</th>
+								<td><input type="file" name="image"></td>
+							</tr> -->
+							<tr>
+							<th>License Number</th>
+							<td><input type="text" name="lino" 
+							 value=""  maxlength="15"  id="lnc" onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"
+							></td>
+							<th>Department Name</th>
+							<%
+							List l1=new ArrayList();
+							RegistrationBean bean=new RegistrationBean();
+							l1=bean.showDept();
+							%>
+							<td><select name="dname"  class="required">
+								<%
+								for(int i=0;i<l1.size();i++){
+									%>
+									<option value="<%=l1.get(i)%>"><%=l1.get(i)%></option>
+									<%
+								}
+								%>	
+							</select></td>
+							</tr>
+						</table>
+					</fieldset>
+					<fieldset>
+						<legend>Professional Information</legend>
+						<table id="pro">
+
+							<tr>
+								<th><label>Qualification</label><br>
+								<br> <input type="text" name="qua" size="2" placeholder="10" maxlength="5"
+									id="qua1" style="width: 50px;"  class="required"  onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"></th>
+								<th><label>Course Name</label><br>
+								<br> <input type="text" name="crs"   class="required"   id="crs1" maxlength="10" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></th>
+								<th><label>University Name</label><br>
+								<br> <input type="text" name="uni"   class="required" id="uni1" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></th>
+								<th><label>College Name</label><br>
+								<br> <input type="text" name="clg"  class="required" id="clg1" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></th>
+
+								<th><label>Stream</label><br>
+								<br> <input type="text" name="strm"  class="required"  id="strm1" maxlength="20" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></th>
+								<th><label>Passing Year</label><br>
+								<br> <input type="text" name="passing" id="passing1" 
+									style="width: 50px;"  class="required"  maxlength="4" onKeyPress="return number(event)"></th>
+								<th><label>Percentage</label><br>
+								<br> <input type="text" name="percentage" id="percentage1" maxlength="2"
+									style="width: 50px;"  class="required" onKeyPress="return number(event)"></th>
+							</tr>
+							<tr>
+								<td><input type="text" name="qua" size="2" placeholder="12"  maxlength="5" onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"
+									id="qua2" style="width: 50px;"></td>
+								<td><input type="text" name="crs"  class="required"   id="crs2" maxlength="10" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="uni"id="uni2" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="clg" id="clg2" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="strm" id="strm2" maxlength="20" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+							  <td><input type="text" name="passing" id="passing2" maxlength="4"
+									style="width: 50px;"  onkeypress="return number(event)"></td>
+								<td><input type="text" name="percentage" id="percentage2" maxlength="2"
+									style="width: 50px;"onkeypress="return number(event)"></td>
+							</tr>
+							<tr>
+								<td><input type="text" name="qua" size="2" placeholder="ug"  maxlength="5"
+									id="qua3" style="width: 50px;" onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="crs" class="required"   id="crs3" maxlength="10" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="uni"id="uni3" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="clg" id="clg3" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="strm"  id="strm3" maxlength="20" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="passing" id="passing3"  maxlength="4"
+									style="width: 50px;"   onkeypress="return number(event)"></td>
+								<td><input type="text" name="percentage" id="percentage3" maxlength="2"
+								onkeypress="return number(event)"
+									style="width: 50px;"></td>
+							</tr>
+							<tr>
+								<td><input type="text" name="qua" size="2" placeholder="pg"  maxlength="5"
+									id="qua4" style="width: 50px;" onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="crs"  class="required"   id="crs4" maxlength="10" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="uni" id="uni4" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="clg" id="clg4" maxlength="50" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="strm"  id="strm4" maxlength="20" onKeyPress="return alphadothyphen(event)" onBlur="convertToUpper(this.id)"></td>
+								<td><input type="text" name="passing2" id="passing4"  maxlength="4"
+									style="width: 50px;"  onkeypress="return number(event)"></td>
+								<td><input type="text" name="percentage" id="percentage4" maxlength="2"
+								onkeypress="return number(event)"
+									style="width: 50px;"></td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<th><label>Specialization</label><br>
+								<br> <select size="1" name="specialization">
+										<option value="">Choose Option</option>
+
+										<option value="acupuncture">acupuncture</option>
+
+										<option value="addl. professor">addl. professor</option>
+
+										<option value="allergy">allergy</option>
+
+										<option value="alternative medicine">alternative
+											medicine</option>
+
+										<option value="anaesthesia">anaesthesia</option>
+
+										<option value="anatomy">anatomy</option>
+
+										<option value="andrology">andrology</option>
+
+										<option value="associate dean">associate dean</option>
+
+										<option value="associate professor">associate
+											professor</option>
+
+										<option value="asst. of operative dentistry">asst. of
+											operative dentistry</option>
+
+										<option value="asst. professor">asst. professor</option>
+
+										<option value="asthma">asthma</option>
+
+										<option value="audiology">audiology</option>
+
+										<option value="biochemistry">biochemistry</option>
+
+										<option value="burns &amp; plastic surgery">burns
+											&amp; plastic surgery</option>
+
+										<option value="cancer surgery">cancer surgery</option>
+
+										<option value="cardio thoracic &amp; vascular surgery">cardio
+											thoracic &amp; vascular surgery</option>
+
+										<option value="cardio thoracic surgery">cardio
+											thoracic surgery</option>
+
+										<option value="cardio vascular surgery">cardio
+											vascular surgery</option>
+
+										<option value="cardiology">cardiology</option>
+
+										<option value="chest specialist">chest specialist</option>
+
+										<option value="chief medical officer (dental)">chief
+											medical officer (dental)</option>
+
+										<option value="civil dental surgeon">civil dental
+											surgeon</option>
+
+										<option value="community medicine">community medicine</option>
+
+										<option value="consultant dental surgeon">consultant
+											dental surgeon</option>
+
+										<option value="consultant endodontist">consultant
+											endodontist</option>
+
+										<option value="consultant oral surgeon">consultant
+											oral surgeon</option>
+
+										<option value="consultant orthodontist">consultant
+											orthodontist</option>
+
+										<option value="consultant periodontist">consultant
+											periodontist</option>
+
+										<option value="consultant physician">consultant
+											physician</option>
+
+										<option value="cosmetic surgery">cosmetic surgery</option>
+
+										<option value="dental">dental</option>
+
+										<option value="dean">dean</option>
+
+										<option value="dental (prostho)">dental (prostho)</option>
+
+										<option value="dental asst. surgeon">dental asst.
+											surgeon</option>
+
+										<option value="dental consultant">dental consultant</option>
+
+										<option value="dental health officer">dental health
+											officer</option>
+
+										<option value="dental surgeon">dental surgeon</option>
+
+										<option value="dental surgeon &amp; othodontist">dental
+											surgeon &amp; othodontist</option>
+
+										<option value="dental surgery">dental surgery</option>
+
+										<option value="dermatology">dermatology</option>
+
+										<option value="diabetology">diabetology</option>
+
+										<option value="dietitian">dietitian</option>
+
+										<option value="endocrinology">endocrinology</option>
+
+										<option value="endodontist">endodontist</option>
+
+										<option value="ent">ent</option>
+
+										<option value="epidemiology">epidemiology</option>
+
+										<option value="family physician">family physician</option>
+
+										<option value="family planning">family planning</option>
+
+										<option value="forensic medicine">forensic medicine</option>
+
+										<option value="gastroenterology">gastroenterology</option>
+
+										<option value="general medicine">general medicine</option>
+
+										<option value="general physician">general physician</option>
+
+										<option value="general practitioner">general
+											practitioner</option>
+
+										<option value="general surgery">general surgery</option>
+
+										<option value="genetics">genetics</option>
+
+										<option value="haematology">haematology</option>
+
+										<option value="hod dentistry">hod dentistry</option>
+
+										<option value="immunogenetics">immunogenetics</option>
+
+										<option value="immunology">immunology</option>
+
+										<option value="indian medicine">indian medicine</option>
+
+										<option value="infertility &amp; reproductive health">infertility
+											&amp; reproductive health</option>
+
+										<option value="internal medicine">internal medicine</option>
+
+										<option value="junior resident">junior resident</option>
+
+										<option value="lecturer">lecturer</option>
+
+										<option value="lecturer in orthodontics">lecturer in
+											orthodontics</option>
+
+										<option value="lecturer in pedodontics">lecturer in
+											pedodontics</option>
+
+										<option value="maxillo facial surgeon">maxillo facial
+											surgeon</option>
+
+										<option value="medical officer (dental)">medical
+											officer (dental)</option>
+
+										<option value="microbiology">microbiology</option>
+
+										<option value="nephrology">nephrology</option>
+
+										<option value="neurology">neurology</option>
+
+										<option value="neurosurgery">neurosurgery</option>
+
+										<option value="nuclear medicine">nuclear medicine</option>
+
+										<option value="obstetrics &amp; gynaecology">obstetrics
+											&amp; gynaecology</option>
+
+										<option value="oncology">oncology</option>
+
+										<option value="ophthalmology">ophthalmology</option>
+
+										<option value="oral surgeon">oral surgeon</option>
+
+										<option value="orthodentist">orthodentist</option>
+
+										<option value="orthopaedics">orthopaedics</option>
+
+										<option value="otolaryngology">otolaryngology</option>
+
+										<option value="p.g. department of orthodontics">p.g.
+											department of orthodontics</option>
+
+										<option value="p.g. student">p.g. student</option>
+
+										<option value="paediatric nephrology">paediatric
+											nephrology</option>
+
+										<option value="paediatric surgery">paediatric surgery</option>
+
+										<option value="paediatrics">paediatrics</option>
+
+										<option value="pathology">pathology</option>
+
+										<option value="periodontist">periodontist</option>
+
+										<option value="pg student">pg student</option>
+
+										<option value="pharmacology">pharmacology</option>
+
+										<option value="physiology">physiology</option>
+
+										<option value="physiotheraphy">physiotheraphy</option>
+
+										<option value="plastic &amp; cosmetic surgery">plastic
+											&amp; cosmetic surgery</option>
+
+										<option value="plastic &amp; maxillofacial">plastic
+											&amp; maxillofacial</option>
+
+										<option value="plastic &amp; microsurgeon">plastic
+											&amp; microsurgeon</option>
+
+										<option value="plastic surgery">plastic surgery</option>
+
+										<option value="principal">principal</option>
+
+										<option value="prof. &amp; head">prof. &amp; head</option>
+
+										<option value="prof. &amp; head of dental surgery">prof.
+											&amp; head of dental surgery</option>
+
+										<option value="prof. &amp; hod">prof. &amp; hod</option>
+
+										<option value="prof. of dental surgeon">prof. of
+											dental surgeon</option>
+
+										<option value="professor">professor</option>
+
+										<option value="professor in charge of principal">professor
+											in charge of principal</option>
+
+										<option value="prosthodontist">prosthodontist</option>
+
+										<option value="psychiatry">psychiatry</option>
+
+										<option value="radiology">radiology</option>
+
+										<option value="radiotherapy">radiotherapy</option>
+
+										<option value="reader in pedodontics">reader in
+											pedodontics</option>
+
+										<option value="registrar">registrar</option>
+
+										<option value="retd. principal">retd. principal</option>
+
+										<option value="rheumatology">rheumatology</option>
+
+										<option value="senior dental surgeon">senior dental
+											surgeon</option>
+
+										<option value="senior medical officer">senior medical
+											officer</option>
+
+										<option value="senior resident">senior resident</option>
+
+										<option value="senior resident (dental)">senior
+											resident (dental)</option>
+
+										<option value="sexology">sexology</option>
+
+										<option value="sonology">sonology</option>
+
+										<option value="sr. dental surgeon">sr. dental surgeon</option>
+
+										<option value="transfusion medicine">transfusion
+											medicine</option>
+
+										<option value="tutor in dental surgeon">tutor in
+											dental surgeon</option>
+
+										<option value="ultrasonology">ultrasonology</option>
+
+										<option value="urology">urology</option>
+
+										<option value="vascular surgery">vascular surgery</option>
+
+										<option value="venereal diseases">venereal diseases</option>
+
+										<option value="vice principal">vice principal</option>
+
+
+								</select></th>
+							</tr>
+
+						</table>
+					</fieldset>
+					<fieldset>
+						<legend>Experience</legend>
+						<table align="left">
+							<tr>
+								<th>Experience</th>
+								<td><select name="exp">
+								<option value="">Select Experiance</option>
+										<option value="Less than 1 year">Less than 1 year</option>
+										<option value="1 year">1 year</option>
+										<option value="2 year">2 year</option>
+										<option value="3 year">3 year</option>
+										<option value="4 year">4 year</option>
+										<option value="5 year">5 year</option>
+										<option value="6 year">6 year</option>
+										<option value="7 year">7 year</option>
+										<option value="8 year">8 year</option>
+										<option value="9 year">9 year</option>
+										<option value="10 year">10 year</option>
+										<option value="more than 10 year">more than 10 year</option>
+								</select></td>
+							</tr>
+							<tr>
+								<th>Last Employer</th>
+								<td><input type="text" name="lem" id="lem" onKeyPress="return alphadothyphen(event)"  onBlur="convertToUpper(this.id)" maxlength="25"></td>
+
+								<th>Post</th>
+								<td><input type="text" name="lpt" id="lpt" onKeyPress="return alphadothyphen(event)"  onBlur="convertToUpper(this.id)" maxlength="15"></td>
+								<th>Salary</th>
+								<td><input type="text" name="last_salary" id="l_sal" maxlength="10" onKeyPress="return number(event)"></td>
+							</tr>
+						</table>
+					</fieldset>
+					
+					
+					<fieldset>
+				<legend>Account Detail</legend>
+				<table align="left">
+					<tr>
+						<th>Bank Name</th>
+						<td><input type="text" name="bankname" id="bankname" class="required" onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"></td>
+						<th>Bank Account Number</th>
+					<td><input type="text" name="actno"  class="required"  id="actno" onKeyPress="return number(event)" value="" maxlength="16"></td>
+					</tr>
+					<tr>
+					<th>PF Number</th>
+					<td><input type="text" name="pfno"  class="required"   onkeypress="return number(event)" value="" maxlength="10" ></td>
+					<th>Pan Number</th>
+					<td><input type="text" name="panno"  class="required" id="pnno" maxlength="16" onKeyPress="return alphanumber(event)" onBlur="convertToUpper(this.id)"></td>
+					</tr>
+				</table>
+			</fieldset>
+					<br>
+					<table align="center">
+						<tr>
+							<td><input  onclick="return validate_main();" type="submit" value="Submit" name="Submit"id="imageField" class="button"> <input
+							class="button"	type="Reset" value="Clear"></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="validation4.js"></script>
+</body>
+</html>

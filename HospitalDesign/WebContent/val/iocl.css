@@ -1,0 +1,244 @@
+*{padding:0; margin:0;}
+body{background:#fff;}
+#wrapper1{position:relative; margin:0 auto; width:966px; height:auto; background-color:#fff; }
+#header{position:relative; margin:0 auto; width:966px; height:78px; background:url(../images/indianoil_logo.jpg) no-repeat ;}
+#menu{position:relative; margin:0 auto; width:966px; height:29px; background:#165dc9; }
+#menulinks{position:relative; float:left; width:auto; height:29px;}
+#menulinks ul{height:24px; padding:0; margin:5px 20px 0px 20px;}
+#menulinks ul li{display:inline; list-style-type:none; }
+#menulinks ul li a{font:bold 12px arial; color:#ffffff; text-decoration:none;}
+#menulinks ul li a:hover{color:#fff;}
+#logout{position:absolute; width:auto; height:17px; top:0; right:20px;}
+#logout, #logout a{font:normal 12px arial; color:#ffffff; text-decoration:none; padding-top:7px;}
+#logout a:hover{color:#fff;}
+.divider{font:normal 12px arial; color:#f0d2d2; margin:0px 10px;}
+#bodyContainer{position:relative; float:left; width:966px; height:auto; background-color:#243259;}
+.pagetitle{font:bold 18px arial; background:#243259; color:#fff; margin:30px 0px 15px 10px;}
+
+.redtext {
+	font-family: Tahoma;
+	font-size: 12px;
+	color: #ff0000;
+	font-weight: normal;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.tablecontent1 {
+	font-family: tahoma;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #ffffff;
+	height: 18px;
+	color: #000000;
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+}
+
+.tablecontent2 {
+	font-family: Tahoma;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #ffffff;
+	height: 18px;
+	color: #000000;
+	left: 5px;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+
+}
+
+.tablecontent5 {
+	font-family: Tahoma;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #ffffff;	 
+	color: #000000;
+}
+
+.tablecontent21 {
+	font-family: Tahoma;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #ffffff;
+	height: 18px;
+	color: #000000;
+	left: 5px;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	padding-left: 3px;
+
+}
+
+.tablecontent22 {
+	font-family: Tahoma;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #ffffff; 
+	color: #000000; 
+
+}
+
+.tablecontent3 {
+	font-family: Tahoma;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #243259;
+	height: 18px;
+	color: #000000;
+	left: 5px;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+
+}
+
+
+
+
+.tableheader {
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	background-color: #1F62A9;
+	color: #FFFFFF;
+	height: 22px;
+	padding-top: 3px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	padding-left: 3px;
+}
+
+.textarea {
+	font-family: Tahoma;
+	font-size: 11px;
+	color: #000000;
+	background-color: #FFFFFF;
+	border: 1px solid #005BA6;
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	left: 5px;
+	top: 5px;
+	right: 5px;
+	bottom: 5px;
+	line-height: 18px;
+}
+
+
+a.disability {
+	font-family: Tahoma;
+	font-size: 16px;
+	color: #990000;
+	font-weight: normal;
+	text-decoration: none;
+	font-weight: bold;
+	text-decoration: underline;
+
+}
+a.disability:hover {
+	font-family: Tahoma;
+	font-size: 16px;
+	color: #990000;
+	text-decoration: none;
+	font-weight: normal;
+	font-weight: bold;
+
+}
+
+.listMenu{
+	  border:1px solid #999999; 
+     font-family:tahoma;
+	font-size:11px;
+    color:#606A74;
+}
+
+.listMenudis{
+	  border:1px solid #999999; 
+     font-family:tahoma;
+	font-size:11px;
+    color:#606A74;
+	width:200px;
+}
+
+.listMenudis2{
+	  border:1px solid #999999; 
+     font-family:tahoma;
+	font-size:11px;
+    color:#606A74;
+	width:250px;
+}
+
+
+.listMenudisable{
+	  border:1px solid #999999; 
+     font-family:tahoma;
+	font-size:11px;
+    color:#cccccc;
+}
+
+.alert {
+	font-family: Tahoma;
+	font-size: 10px;
+	color: #ff0030;
+
+}
+
+
+.button {
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #008dbd;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #6cbcd7;
+	border-right-color: #0074a8;
+	border-bottom-color: #00669d;
+	border-left-color: #36a4c9;
+	height: 20px;
+	padding: 1px;
+}
+
+/* Form Elements */
+.txtfiled1, .txtarea{border:1px solid #ccc; background-color:#fff; height: 19px; font:normal 12px arial; color:#646464; padding:0px 0px 0px 5px; outline:none;}
+.txtarea{height:auto; padding:5px ;}
+
+
+.buttonContainer{position:relative; float:left; width:900px; background-color:#ffffff;  height:auto; padding:10px 10px; }
+.button{width:auto; height:30px; background-color:#165dc9; font:bold 12px arial; color:#fff; padding:3px 10px; border:1px solid #fff;}
+.button:hover{background-color:#646464;}
+
+#footerInner{position:relative; width:100%; height:50px; background:#243259; color:#fff;}
+#footerInner p{font:normal 12px arial; text-align:center; padding-top:15px;}
+
+
+
+
