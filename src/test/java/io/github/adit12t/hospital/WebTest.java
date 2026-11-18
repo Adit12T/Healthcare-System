@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -69,7 +68,7 @@ class WebTest {
 
     @Test
     void anonymousUsersAreSentToTheLoginPage() throws Exception {
-        mvc.perform(get("/patients")).andExpect(status().isFound()).andExpect(redirectedUrlPattern("**/login"));
+        mvc.perform(get("/patients")).andExpect(status().isFound()).andExpect(result -> assertThat(result.getResponse().getRedirectedUrl()).endsWith("/login"));
         mvc.perform(get("/login")).andExpect(status().isOk());
         mvc.perform(get("/actuator/health")).andExpect(status().isOk());
     }

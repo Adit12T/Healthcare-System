@@ -17,9 +17,6 @@ spring:
     cache: true
 
 server:
-  error:
-    include-stacktrace: never
-    include-message: never
   servlet:
     session:
       timeout: 30m
@@ -36,6 +33,11 @@ management:
 hospital:
   # Creates the first admin account on an empty database when set (production bootstrap).
   bootstrap-admin-password: ${HMS_ADMIN_PASSWORD:}
+
+# Boot 4 moved these from server.error
+spring.web.error:
+  include-stacktrace: never
+  include-message: never
 
 ---
 spring:
