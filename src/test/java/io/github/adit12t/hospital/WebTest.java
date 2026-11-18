@@ -1,6 +1,6 @@
 package io.github.adit12t.hospital;
 
-import io.github.adit12t.hospital.ambulance.AmbulanceRepositories.AmbulanceRepository;
+import io.github.adit12t.hospital.ambulance.AmbulanceRepository;
 import io.github.adit12t.hospital.patient.PatientRepository;
 import io.github.adit12t.hospital.staff.StaffRepository;
 import io.github.adit12t.hospital.ward.AdmissionRepository;

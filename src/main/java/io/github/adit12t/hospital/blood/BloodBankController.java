@@ -1,6 +1,6 @@
 package io.github.adit12t.hospital.blood;
 
-import io.github.adit12t.hospital.blood.BloodRepositories.DonorRepository;
+import io.github.adit12t.hospital.blood.DonorRepository;
 import io.github.adit12t.hospital.patient.PatientRepository;
 import io.github.adit12t.hospital.web.RuleViolation;
 import org.springframework.data.domain.Sort;

@@ -1,7 +1,7 @@
 package io.github.adit12t.hospital.ambulance;
 
-import io.github.adit12t.hospital.ambulance.AmbulanceRepositories.AmbulanceRepository;
-import io.github.adit12t.hospital.ambulance.AmbulanceRepositories.DispatchRepository;
+import io.github.adit12t.hospital.ambulance.AmbulanceRepository;
+import io.github.adit12t.hospital.ambulance.DispatchRepository;
 import io.github.adit12t.hospital.web.RuleViolation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

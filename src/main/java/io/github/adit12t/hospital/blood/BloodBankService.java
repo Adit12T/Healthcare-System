@@ -1,8 +1,8 @@
 package io.github.adit12t.hospital.blood;
 
-import io.github.adit12t.hospital.blood.BloodRepositories.BloodIssueRepository;
-import io.github.adit12t.hospital.blood.BloodRepositories.DonationRepository;
-import io.github.adit12t.hospital.blood.BloodRepositories.DonorRepository;
+import io.github.adit12t.hospital.blood.BloodIssueRepository;
+import io.github.adit12t.hospital.blood.DonationRepository;
+import io.github.adit12t.hospital.blood.DonorRepository;
 import io.github.adit12t.hospital.patient.Patient;
 import io.github.adit12t.hospital.patient.PatientRepository;
 import io.github.adit12t.hospital.web.NotFoundException;
