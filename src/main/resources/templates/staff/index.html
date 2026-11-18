@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Staff')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <div th:replace="~{fragments/layout :: messages}"></div>
+  <h1>Staff accounts</h1>
+  <table>
+    <thead><tr><th scope="col">Name</th><th scope="col">Username</th><th scope="col">Role</th><th scope="col">Department</th><th scope="col">Status</th></tr></thead>
+    <tbody>
+      <tr th:each="m : ${members}">
+        <td th:text="${m.fullName}"></td><td th:text="${m.username}"></td>
+        <td th:text="${m.role}"></td><td th:text="${m.department} ?: '—'"></td>
+        <td>
+          <form class="inline" th:action="@{/staff/{id}/enabled(id=${m.id})}" method="post">
+            <input type="hidden" name="enabled" th:value="${!m.enabled}">
+            <span th:text="${m.enabled} ? 'Active' : 'Disabled'"></span>
+            <button type="submit" class="secondary" th:text="${m.enabled} ? 'Disable' : 'Enable'"></button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>New account</h2>
+  <form class="card" th:action="@{/staff}" th:object="${form}" method="post">
+    <div class="grid">
+      <label>Username <input th:field="*{username}" required maxlength="40" autocomplete="off">
+        <span class="field-error" th:errors="*{username}"></span></label>
+      <label>Full name <input th:field="*{fullName}" required maxlength="100">
+        <span class="field-error" th:errors="*{fullName}"></span></label>
+      <label>Role
+        <select th:field="*{role}" required>
+          <option value="">Choose…</option>
+          <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+        </select>
+        <span class="field-error" th:errors="*{role}"></span></label>
+      <label>Department <input th:field="*{department}" maxlength="60"></label>
+      <label>Initial password <input type="password" th:field="*{password}" required minlength="12" maxlength="128" autocomplete="new-password">
+        <span class="field-error" th:errors="*{password}"></span></label>
+    </div>
+    <button type="submit">Create account</button>
+  </form>
+</main>
+</body>
+</html>

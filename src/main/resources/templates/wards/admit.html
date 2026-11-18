@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admit patient')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <h1>Admit patient</h1>
+  <form class="card" th:action="@{/wards/admit}" th:object="${form}" method="post">
+    <p class="alert" role="alert" th:if="${#fields.hasGlobalErrors()}" th:each="e : ${#fields.globalErrors()}" th:text="${e}"></p>
+    <div class="grid">
+      <label>Patient
+        <select th:field="*{patientId}" required>
+          <option value="">Choose…</option>
+          <option th:each="p : ${patients}" th:value="${p.id}" th:text="${p.lastName} + ', ' + ${p.firstName} + ' (' + ${p.mrn} + ')'"></option>
+        </select>
+        <span class="field-error" th:errors="*{patientId}"></span></label>
+      <label>Bed
+        <select th:field="*{bedId}" required>
+          <option value="">Choose…</option>
+          <option th:each="b : ${freeBeds}" th:value="${b.id}" th:text="${b.name} + ' · ' + ${b.room.type} + ' · $' + ${b.room.dailyRate} + '/day'"></option>
+        </select>
+        <span class="field-error" th:errors="*{bedId}"></span></label>
+      <label class="wide">Reason for admission <input th:field="*{reason}" required maxlength="300">
+        <span class="field-error" th:errors="*{reason}"></span></label>
+      <label class="wide">Attending doctor <input th:field="*{attendingDoctor}" maxlength="100"></label>
+    </div>
+    <button type="submit">Admit</button>
+  </form>
+</main>
+</body>
+</html>

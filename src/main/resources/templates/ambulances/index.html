@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Ambulances')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <div th:replace="~{fragments/layout :: messages}"></div>
+  <h1>Ambulances</h1>
+  <div class="fleet">
+    <article class="card" th:each="a : ${fleet}">
+      <h2 th:text="${a.registration}"></h2>
+      <p><span th:text="${a.kind.name() == 'ADVANCED'} ? 'Advanced life support' : 'Basic life support'"></span> ·
+         <strong th:text="${#strings.toLowerCase(a.status)}" th:class="'status ' + ${#strings.toLowerCase(a.status)}"></strong></p>
+      <form sec:authorize="hasAnyRole('ADMIN','RECEPTION')" th:if="${a.status.name() == 'AVAILABLE'}"
+            th:action="@{/ambulances/{id}/dispatch(id=${a.id})}" method="post">
+        <label>Patient name <input name="patientName" required maxlength="100"></label>
+        <label>Pickup address <input name="pickupAddress" required maxlength="200"></label>
+        <label>Contact phone <input name="contactPhone" type="tel" required maxlength="20"></label>
+        <button type="submit">Dispatch</button>
+      </form>
+      <form sec:authorize="hasAnyRole('ADMIN','RECEPTION')" th:if="${a.status.name() == 'DISPATCHED'}"
+            th:action="@{/ambulances/{id}/return(id=${a.id})}" method="post">
+        <button type="submit">Mark returned</button>
+      </form>
+      <form sec:authorize="hasRole('ADMIN')" th:unless="${a.status.name() == 'DISPATCHED'}"
+            th:action="@{/ambulances/{id}/maintenance(id=${a.id})}" method="post">
+        <input type="hidden" name="on" th:value="${a.status.name() != 'MAINTENANCE'}">
+        <button type="submit" class="secondary" th:text="${a.status.name() == 'MAINTENANCE'} ? 'Return to service' : 'Send to maintenance'"></button>
+      </form>
+    </article>
+  </div>
+  <h2>Recent calls</h2>
+  <table>
+    <thead><tr><th scope="col">Dispatched</th><th scope="col">Ambulance</th><th scope="col">Patient</th><th scope="col">Pickup</th><th scope="col">Returned</th></tr></thead>
+    <tbody>
+      <tr th:each="d : ${dispatches}">
+        <td th:text="${#temporals.format(d.dispatchedAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${d.ambulance.registration}"></td>
+        <td th:text="${d.patientName}"></td>
+        <td th:text="${d.pickupAddress}"></td>
+        <td th:text="${d.returnedAt} ? ${#temporals.format(d.returnedAt, 'HH:mm')} : 'Out on call'"></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(dispatches)}"><td colspan="5">No calls yet.</td></tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${patientId} ? 'Edit patient' : 'Register patient')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <h1 th:text="${patientId} ? 'Edit patient' : 'Register patient'">Register patient</h1>
+  <form class="card" th:object="${form}" method="post"
+        th:action="${patientId} ? @{/patients/{id}(id=${patientId})} : @{/patients}">
+    <div class="grid">
+      <label>First name <input th:field="*{firstName}" required maxlength="60">
+        <span class="field-error" th:errors="*{firstName}"></span></label>
+      <label>Last name <input th:field="*{lastName}" required maxlength="60">
+        <span class="field-error" th:errors="*{lastName}"></span></label>
+      <label>Date of birth <input type="date" th:field="*{dateOfBirth}" required>
+        <span class="field-error" th:errors="*{dateOfBirth}"></span></label>
+      <label>Sex
+        <select th:field="*{sex}" required>
+          <option value="">Choose…</option>
+          <option th:each="s : ${sexes}" th:value="${s}" th:text="${#strings.capitalize(#strings.toLowerCase(s))}"></option>
+        </select>
+        <span class="field-error" th:errors="*{sex}"></span></label>
+      <label>Blood group
+        <select th:field="*{bloodGroup}">
+          <option value="">Unknown</option>
+          <option th:each="g : ${bloodGroups}" th:value="${g}" th:text="${g.label()}"></option>
+        </select></label>
+      <label>Phone <input type="tel" th:field="*{phone}" required maxlength="20">
+        <span class="field-error" th:errors="*{phone}"></span></label>
+      <label class="wide">Address <input th:field="*{address}" maxlength="200"></label>
+      <label class="wide">Emergency contact <input th:field="*{emergencyContact}" maxlength="120"></label>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+</main>
+</body>
+</html>

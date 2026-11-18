@@ -1,0 +1,29 @@
+# Production-style run on PostgreSQL. Create a .env file with HMS_DB_PASSWORD and HMS_ADMIN_PASSWORD first.
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: hospital
+      POSTGRES_USER: hospital
+      POSTGRES_PASSWORD: ${HMS_DB_PASSWORD:?set HMS_DB_PASSWORD in .env}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hospital"]
+      interval: 5s
+      retries: 10
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      HMS_DB_URL: jdbc:postgresql://db:5432/hospital
+      HMS_DB_USER: hospital
+      HMS_DB_PASSWORD: ${HMS_DB_PASSWORD}
+      HMS_ADMIN_PASSWORD: ${HMS_ADMIN_PASSWORD:-}
+    ports:
+      - "8080:8080"
+volumes:
+  db-data:

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${patient.fullName})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <div th:replace="~{fragments/layout :: messages}"></div>
+  <div class="heading">
+    <h1 th:text="${patient.fullName}">Name</h1>
+    <div class="actions" sec:authorize="hasAnyRole('ADMIN','RECEPTION')">
+      <a class="button secondary" th:href="@{/patients/{id}/edit(id=${patient.id})}">Edit</a>
+      <a class="button" th:href="@{/wards/admit(patientId=${patient.id})}">Admit</a>
+    </div>
+  </div>
+  <dl class="details">
+    <dt>MRN</dt><dd th:text="${patient.mrn}"></dd>
+    <dt>Age</dt><dd th:text="${age} + ' (born ' + ${patient.dateOfBirth} + ')'"></dd>
+    <dt>Sex</dt><dd th:text="${#strings.capitalize(#strings.toLowerCase(patient.sex))}"></dd>
+    <dt>Blood group</dt><dd th:text="${patient.bloodGroup} ? ${patient.bloodGroup.label()} : 'Unknown'"></dd>
+    <dt>Phone</dt><dd th:text="${patient.phone}"></dd>
+    <dt>Address</dt><dd th:text="${patient.address} ?: '—'"></dd>
+    <dt>Emergency contact</dt><dd th:text="${patient.emergencyContact} ?: '—'"></dd>
+  </dl>
+  <h2>Admissions</h2>
+  <table>
+    <thead><tr><th scope="col">Admitted</th><th scope="col">Bed</th><th scope="col">Reason</th><th scope="col">Discharged</th><th scope="col">Charge</th></tr></thead>
+    <tbody>
+      <tr th:each="a : ${admissions}">
+        <td th:text="${#temporals.format(a.admittedAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${a.bed.name}"></td>
+        <td th:text="${a.reason}"></td>
+        <td th:text="${a.dischargedAt} ? ${#temporals.format(a.dischargedAt, 'yyyy-MM-dd HH:mm')} : 'In hospital'"></td>
+        <td th:text="${a.stayCharge} ? '$' + ${a.stayCharge} : '—'"></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(admissions)}"><td colspan="5">No admissions.</td></tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Blood bank')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <div th:replace="~{fragments/layout :: messages}"></div>
+  <h1>Blood bank</h1>
+  <table class="stock">
+    <caption>Units in stock</caption>
+    <thead><tr><th th:each="e : ${stock}" scope="col" th:text="${e.key.label()}"></th></tr></thead>
+    <tbody><tr><td th:each="e : ${stock}" th:text="${e.value}" th:classappend="${e.value < 2} ? 'low'"></td></tr></tbody>
+  </table>
+
+  <section sec:authorize="hasAnyRole('ADMIN','DOCTOR')">
+    <h2>Issue blood</h2>
+    <form class="card inline" th:action="@{/blood/issues}" method="post">
+      <label>Patient
+        <select name="patientId" required>
+          <option value="">Choose…</option>
+          <option th:each="p : ${patients}" th:value="${p.id}"
+                  th:text="${p.lastName} + ', ' + ${p.firstName} + ' (' + (${p.bloodGroup} ? ${p.bloodGroup.label()} : 'group unknown') + ')'"></option>
+        </select></label>
+      <label>Group
+        <select name="bloodGroup" required>
+          <option th:each="g : ${bloodGroups}" th:value="${g}" th:text="${g.label()}"></option>
+        </select></label>
+      <label>Units <input name="units" type="number" min="1" max="10" value="1" required></label>
+      <button type="submit">Issue</button>
+    </form>
+    <p class="hint">Only groups compatible with the patient's recorded blood group can be issued, and never more than the stock.</p>
+  </section>
+
+  <section>
+    <h2>Donors</h2>
+    <table>
+      <thead><tr><th scope="col">Name</th><th scope="col">Group</th><th scope="col">Phone</th><th scope="col"><span class="sr-only">Record donation</span></th></tr></thead>
+      <tbody>
+        <tr th:each="d : ${donors}">
+          <td th:text="${d.fullName}"></td>
+          <td th:text="${d.bloodGroup.label()}"></td>
+          <td th:text="${d.phone}"></td>
+          <td>
+            <form sec:authorize="hasAnyRole('ADMIN','DOCTOR','NURSE')" class="inline" th:action="@{/blood/donors/{id}/donations(id=${d.id})}" method="post">
+              <label class="sr-only" th:for="'units-' + ${d.id}">Units</label>
+              <select name="units" th:id="'units-' + ${d.id}"><option value="1">1 unit</option><option value="2">2 units</option></select>
+              <button type="submit" class="secondary">Record donation</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(donors)}"><td colspan="4">No donors yet.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section sec:authorize="hasAnyRole('ADMIN','DOCTOR','NURSE')">
+    <h2>Register donor</h2>
+    <form class="card" th:action="@{/blood/donors}" method="post">
+      <div class="grid">
+        <label>Full name <input name="fullName" required maxlength="100"></label>
+        <label>Date of birth <input name="dateOfBirth" type="date" required></label>
+        <label>Blood group
+          <select name="bloodGroup" required><option th:each="g : ${bloodGroups}" th:value="${g}" th:text="${g.label()}"></option></select></label>
+        <label>Weight (kg) <input name="weightKg" type="number" min="1" max="300" required></label>
+        <label>Phone <input name="phone" type="tel" required maxlength="20"></label>
+      </div>
+      <p class="hint">Donors must be 18–65, weigh at least 50 kg, and wait 56 days between donations.</p>
+      <button type="submit">Register</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Recent issues</h2>
+    <table>
+      <thead><tr><th scope="col">Date</th><th scope="col">Patient</th><th scope="col">Group</th><th scope="col">Units</th><th scope="col">Issued by</th></tr></thead>
+      <tbody>
+        <tr th:each="i : ${issues}">
+          <td th:text="${i.issuedOn}"></td><td th:text="${i.patient.fullName}"></td>
+          <td th:text="${i.bloodGroup.label()}"></td><td th:text="${i.units}"></td><td th:text="${i.issuedBy}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(issues)}"><td colspan="5">None yet.</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>

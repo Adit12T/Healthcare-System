@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Patients')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <div class="heading">
+    <h1>Patients</h1>
+    <a class="button" sec:authorize="hasAnyRole('ADMIN','RECEPTION')" th:href="@{/patients/new}">Register patient</a>
+  </div>
+  <form class="search" th:action="@{/patients}" method="get" role="search">
+    <label>Search by name or phone <input name="q" th:value="${q}" maxlength="60"></label>
+    <button type="submit">Search</button>
+  </form>
+  <table>
+    <thead><tr><th scope="col">MRN</th><th scope="col">Name</th><th scope="col">Date of birth</th><th scope="col">Blood group</th><th scope="col">Phone</th></tr></thead>
+    <tbody>
+      <tr th:each="p : ${page.content}">
+        <td th:text="${p.mrn}"></td>
+        <td><a th:href="@{/patients/{id}(id=${p.id})}" th:text="${p.lastName} + ', ' + ${p.firstName}"></a></td>
+        <td th:text="${p.dateOfBirth}"></td>
+        <td th:text="${p.bloodGroup} ? ${p.bloodGroup.label()} : 'Unknown'"></td>
+        <td th:text="${p.phone}"></td>
+      </tr>
+      <tr th:if="${page.empty}"><td colspan="5">No patients found.</td></tr>
+    </tbody>
+  </table>
+  <nav class="pager" th:if="${page.totalPages > 1}" aria-label="Pages">
+    <a th:if="${page.hasPrevious()}" th:href="@{/patients(q=${q},page=${page.number - 1})}">Previous</a>
+    <span th:text="'Page ' + ${page.number + 1} + ' of ' + ${page.totalPages}"></span>
+    <a th:if="${page.hasNext()}" th:href="@{/patients(q=${q},page=${page.number + 1})}">Next</a>
+  </nav>
+</main>
+</body>
+</html>

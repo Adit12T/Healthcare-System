@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Discharge')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <h1 th:text="'Discharge ' + ${admission.patient.fullName}">Discharge</h1>
+  <p th:text="'Bed ' + ${admission.bed.name} + ', admitted ' + ${#temporals.format(admission.admittedAt, 'yyyy-MM-dd HH:mm')} + ' for: ' + ${admission.reason}"></p>
+  <form class="card" th:action="@{/wards/admissions/{id}/discharge(id=${admission.id})}" method="post">
+    <p class="alert" role="alert" th:if="${error}" th:text="${error}"></p>
+    <label>Discharge summary <textarea name="summary" rows="6" maxlength="2000" required></textarea></label>
+    <p class="hint">The stay is charged at the room's daily rate for each calendar day started, at least one day.</p>
+    <button type="submit">Discharge</button>
+  </form>
+</main>
+</body>
+</html>

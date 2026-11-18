@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title} + ' · Hospital Management'">Hospital Management</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header th:fragment="nav" class="topbar">
+  <a class="brand" th:href="@{/}">Hospital Management</a>
+  <nav aria-label="Main">
+    <a th:href="@{/}">Dashboard</a>
+    <a th:href="@{/patients}">Patients</a>
+    <a th:href="@{/wards}">Wards</a>
+    <a th:href="@{/blood}">Blood bank</a>
+    <a th:href="@{/ambulances}">Ambulances</a>
+    <a sec:authorize="hasRole('ADMIN')" th:href="@{/staff}">Staff</a>
+  </nav>
+  <form class="signout" th:action="@{/logout}" method="post">
+    <span sec:authentication="name">user</span>
+    <button type="submit" class="link">Sign out</button>
+  </form>
+</header>
+<div th:fragment="messages">
+  <p class="notice" role="status" th:if="${notice}" th:text="${notice}"></p>
+  <p class="alert" role="alert" th:if="${error}" th:text="${error}"></p>
+</div>
+</body>
+</html>

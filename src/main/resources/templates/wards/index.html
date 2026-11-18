@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Wards')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <div th:replace="~{fragments/layout :: messages}"></div>
+  <div class="heading">
+    <h1>Wards <small th:text="${free} + ' beds free'"></small></h1>
+    <a class="button" sec:authorize="hasAnyRole('ADMIN','RECEPTION')" th:href="@{/wards/admit}">Admit patient</a>
+  </div>
+  <table>
+    <thead><tr><th scope="col">Bed</th><th scope="col">Room type</th><th scope="col">Daily rate</th><th scope="col">Patient</th><th scope="col">Since</th><th scope="col"><span class="sr-only">Action</span></th></tr></thead>
+    <tbody>
+      <tr th:each="s : ${board}" th:classappend="${s.free} ? 'free'">
+        <td th:text="${s.bed.name}"></td>
+        <td th:text="${#strings.replace(s.bed.room.type, '_', ' ')}"></td>
+        <td th:text="'$' + ${s.bed.room.dailyRate}"></td>
+        <td>
+          <span th:if="${s.free}">Free</span>
+          <a th:unless="${s.free}" th:href="@{/patients/{id}(id=${s.admission.patient.id})}" th:text="${s.admission.patient.fullName}"></a>
+        </td>
+        <td th:text="${s.free} ? '' : ${#temporals.format(s.admission.admittedAt, 'yyyy-MM-dd')}"></td>
+        <td>
+          <a th:if="${s.free}" sec:authorize="hasAnyRole('ADMIN','RECEPTION')" th:href="@{/wards/admit(bedId=${s.bed.id})}">Admit here</a>
+          <a th:unless="${s.free}" sec:authorize="hasAnyRole('ADMIN','DOCTOR')" th:href="@{/wards/admissions/{id}/discharge(id=${s.admission.id})}">Discharge</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

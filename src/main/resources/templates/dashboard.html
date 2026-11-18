@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: nav}"></header>
+<main>
+  <h1>Dashboard</h1>
+  <div class="tiles">
+    <a class="tile" th:href="@{/patients}"><span class="big" th:text="${patientCount}">0</span> registered patients</a>
+    <a class="tile" th:href="@{/wards}"><span class="big" th:text="${occupiedBeds} + ' / ' + ${totalBeds}">0 / 0</span> beds occupied</a>
+    <a class="tile" th:href="@{/ambulances}"><span class="big" th:text="${ambulancesAvailable} + ' / ' + ${ambulancesTotal}">0 / 0</span> ambulances available</a>
+  </div>
+  <h2>Blood stock (units)</h2>
+  <table class="stock">
+    <thead><tr><th th:each="e : ${stock}" scope="col" th:text="${e.key.label()}">O-</th></tr></thead>
+    <tbody><tr><td th:each="e : ${stock}" th:text="${e.value}" th:classappend="${e.value < 2} ? 'low'">0</td></tr></tbody>
+  </table>
+</main>
+</body>
+</html>
